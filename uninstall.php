@@ -23,6 +23,7 @@ $wcdm_options = array(
 	'wcdm_custom_hover_bg_color',
 	'wcdm_custom_hover_text_color',
 	'wcdm_show_hint',
+	'wcdm_hint_text',
 	'wcdm_show_input',
 	'wcdm_enable_list',
 	'wcdm_coupon_display_mode',

@@ -250,10 +250,18 @@ class WCDM_Settings
 			// ---- UX extras ----
 			array(
 				'title' => __('Show Optional Hint', 'coupon-display-manager-for-woocommerce'),
-				'desc' => __('Show "Optional — only if you have a coupon" hint below the input.', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Show optional hint text below the input.', 'coupon-display-manager-for-woocommerce'),
 				'id' => 'wcdm_show_hint',
 				'default' => 'yes',
 				'type' => 'checkbox',
+			),
+			array(
+				'title' => __('Optional Hint Text', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('The text shown below the coupon input field if Show Optional Hint is enabled.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_hint_text',
+				'default' => __('Optional — only if you have a coupon', 'coupon-display-manager-for-woocommerce'),
+				'type' => 'text',
+				'desc_tip' => true,
 			),
 			array(
 				'type' => 'sectionend',
