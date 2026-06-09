@@ -83,6 +83,17 @@ class WCDM_Coupon_Display_Manager
 
 		WCDM_Frontend::get_instance();
 		WCDM_Blocks::get_instance();
+
+		// Initialize automatic updates via GitHub.
+		if (file_exists(WCDM_PLUGIN_DIR . 'includes/plugin-update-checker/plugin-update-checker.php')) {
+			require_once WCDM_PLUGIN_DIR . 'includes/plugin-update-checker/plugin-update-checker.php';
+			$wcdm_update_checker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+				'https://github.com/Almujab-Sidik/woo-coupon-manager/',
+				__FILE__,
+				'coupon-display-manager-for-woocommerce'
+			);
+			$wcdm_update_checker->setBranch('main');
+		}
 	}
 
 	private function includes()
