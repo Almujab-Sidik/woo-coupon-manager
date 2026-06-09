@@ -34,6 +34,15 @@ jQuery(document).ready(function($) {
 	$("#wcdm_coupon_display_mode").on("change", toggleListFields);
 	toggleListFields();
 
+	// 2.2. Toggle Dropdown Text field based on "Enable Collapsible Dropdown" setting
+	function toggleDropdownTextField() {
+		var isChecked = $("#wcdm_dropdown_hide").is(":checked");
+		$("#wcdm_dropdown_text").closest("tr").toggle(isChecked);
+	}
+
+	$("#wcdm_dropdown_hide").on("change", toggleDropdownTextField);
+	toggleDropdownTextField();
+
 	// 3. Custom Coupon Grid Selection & Counter
 	var $grid = $(".wcdm-admin-coupon-grid");
 	if ($grid.length) {

@@ -198,6 +198,7 @@ class WCDM_Compat {
 		}
 
 		// Ensure we are actually applying a coupon (not just listing, validating page load, or checking available coupons).
+		// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_debug_backtrace
 		$trace       = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS, 15 );
 		$is_applying = false;
 		foreach ( $trace as $step ) {

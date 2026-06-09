@@ -399,3 +399,67 @@ body.wcdm-coupon-active .woocommerce-message {
 	font-weight     : 600;
 	font-size      : 11px;
 }
+
+/* ==========================================================================
+   6. Collapsible Dropdown Layout
+   ========================================================================== */
+.wcdm-checkout-coupon-repositioned.wcdm-layout-dropdown-hide {
+	background: transparent;
+	border: none;
+	box-shadow: none;
+	padding: 0;
+	margin: 10px 0;
+	transition: var(--wcdm-transition);
+}
+
+/* Re-apply standard card styling when the dropdown is open or coupon is applied */
+.wcdm-checkout-coupon-repositioned.wcdm-layout-dropdown-hide.wcdm-dropdown-open,
+.wcdm-checkout-coupon-repositioned.wcdm-layout-dropdown-hide.wcdm-coupon-applied-state {
+	background: #ffffff;
+	border: 1px solid var(--wcdm-border);
+	box-shadow: var(--wcdm-shadow);
+	padding: 16px;
+}
+
+.wcdm-checkout-coupon-repositioned.wcdm-layout-dropdown-hide.wcdm-coupon-applied-state {
+	background: var(--wcdm-success-bg) !important;
+	border: 1px solid var(--wcdm-success-border) !important;
+}
+
+/* Dropdown Toggle Trigger Link */
+.wcdm-dropdown-toggle {
+	display: inline-flex !important;
+	align-items: center;
+	font-size: var(--wcdm-font-base);
+	font-weight: 500;
+	color: #4f46e5 !important; /* Premium Indigo */
+	text-decoration: none !important;
+	cursor: pointer;
+	transition: var(--wcdm-transition);
+	margin-bottom: 0px;
+	padding: 4px 0;
+}
+
+.wcdm-dropdown-toggle:hover {
+	color: #3730a3 !important;
+	text-decoration: underline !important;
+}
+
+/* Animated Caret Indicator */
+.wcdm-dropdown-toggle::after {
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: rotate(45deg);
+	margin-left: 8px;
+	margin-top: -3px;
+	transition: transform 0.2s ease;
+}
+
+.wcdm-dropdown-toggle.wcdm-dropdown-active::after {
+	transform: rotate(-135deg);
+	margin-top: 1px;
+}

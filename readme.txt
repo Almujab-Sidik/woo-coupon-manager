@@ -1,10 +1,10 @@
-===  WooCommerce Coupon Display Manager ===
+=== Coupon Display Manager for WooCommerce ===
 Contributors:      era ai
 Tags:              woocommerce, coupon, checkout, cartflows, funnelkit
 Requires at least: 6.0
-Tested up to:      6.7
+Tested up to:      7.0
 Requires PHP:      7.4
-Stable tag:        1.0.0
+Stable tag:        1.1.0
 License:           GPL-2.0-or-later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Control the position, style, and behavior of the WooCommerce coupon field on any
 
 == Description ==
 
-**WooCommerce Coupon Display Manager** solves a common UX problem: customers mistake the prominent "Apply" coupon button for the "Place Order" payment button, causing confusion, drop-offs, and support tickets.
+**Coupon Display Manager for WooCommerce** solves a common UX problem: customers mistake the prominent "Apply" coupon button for the "Place Order" payment button, causing confusion, drop-offs, and support tickets.
 
 The plugin modifies the *presentation layer only* — no changes to WooCommerce payment logic or coupon calculations.
 
@@ -45,7 +45,7 @@ The plugin modifies the *presentation layer only* — no changes to WooCommerce 
 
 == Installation ==
 
-1. Upload the `woo-coupon-display-manager` folder to `/wp-content/plugins/`.
+1. Upload the `coupon-display-manager-for-woocommerce` folder to `/wp-content/plugins/`.
 2. Activate the plugin through **Plugins → Installed Plugins**.
 3. Go to **WooCommerce → Coupon Display** to configure.
 
@@ -82,6 +82,10 @@ Yes. Block Checkout (React-rendered) is handled by `blocks.js`, which uses a `Mu
 5. Applied coupon pill with one-click remove.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added Collapsible Dropdown layout option support for all checkout styles.
+* Resolved various Plugin Check errors and warnings, and updated plugin name for trademark compliance.
 
 = 1.0.0 =
 * Initial release. Features complete layout positioning, customized styling, and available coupon list badges compatible with WooCommerce Classic, Block Checkout, CartFlows, and FunnelKit.

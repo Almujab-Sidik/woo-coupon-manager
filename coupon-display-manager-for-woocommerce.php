@@ -1,18 +1,20 @@
 <?php
 
 /**
- * Plugin Name:       WooCommerce Coupon Display Manager
+ * Plugin Name:       Coupon Display Manager for WooCommerce
  * Plugin URI:        https://eraai.id
  * Description:       Control the position, style, and behavior of the WooCommerce coupon field on any checkout page — including CartFlows, FunnelKit, Block Checkout, and the WooCommerce default.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            ERA AI
  * Author URI:        https://eraai.id
- * Text Domain:       woo-coupon-display-manager
+ * Text Domain:       coupon-display-manager-for-woocommerce
  * Domain Path:       /languages
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * WC requires at least: 7.0
  * WC tested up to:   9.9
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  *
  * @package WooCouponDisplayManager
  */
@@ -21,7 +23,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants.
-define('WCDM_VERSION', '1.0.0');
+define('WCDM_VERSION', '1.1.0');
 define('WCDM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WCDM_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WCDM_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -70,12 +72,6 @@ class Woo_Coupon_Display_Manager
 			return;
 		}
 
-		// Load text domain.
-		load_plugin_textdomain(
-			'woo-coupon-display-manager',
-			false,
-			dirname(WCDM_PLUGIN_BASENAME) . '/languages'
-		);
 
 		// Load all includes.
 		$this->includes();
@@ -105,7 +101,7 @@ class Woo_Coupon_Display_Manager
 				<?php
 				esc_html_e(
 					'WooCommerce Coupon Display Manager requires WooCommerce to be installed and active.',
-					'woo-coupon-display-manager'
+					'coupon-display-manager-for-woocommerce'
 				);
 				?>
 			</p>

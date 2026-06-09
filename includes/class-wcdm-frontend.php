@@ -96,7 +96,7 @@ class WCDM_Frontend {
 		$has_coupon = ! empty( $applied );
 		$applied_code = $has_coupon ? strtoupper( $applied[0] ) : '';
 
-		$button_text = get_option( 'wcdm_button_text', __( 'Apply Coupon', 'woo-coupon-display-manager' ) );
+		$button_text = get_option( 'wcdm_button_text', __( 'Apply Coupon', 'coupon-display-manager-for-woocommerce' ) );
 		$show_hint   = 'yes' === get_option( 'wcdm_show_hint', 'yes' );
 		
 		$display_mode = get_option( 'wcdm_coupon_display_mode', 'input' );
@@ -107,42 +107,71 @@ class WCDM_Frontend {
 		$button_style = get_option( 'wcdm_button_style', 'secondary' );
 		$btn_class = 'button wcdm-btn-' . esc_attr( $button_style );
 
+		$layout_position = get_option( 'wcdm_layout_position', 'above_payment' );
+		$is_dropdown     = 'yes' === get_option( 'wcdm_dropdown_hide', 'no' );
+
 		$wrapper_class = 'wcdm-checkout-coupon-repositioned';
+		if ( $is_dropdown ) {
+			$wrapper_class .= ' wcdm-layout-dropdown-hide';
+		}
 		if ( $has_coupon ) {
 			$wrapper_class .= ' wcdm-coupon-applied-state wcdm-has-coupon';
 		}
 		?>
 		<div class="<?php echo esc_attr( $wrapper_class ); ?>">
-			<?php
-			if ( $enable_list ) {
-				echo $this->render_available_coupons_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			}
-			?>
-			<div class="wcdm-coupon-interactive-area">
-				<?php if ( $has_coupon ) : ?>
-					<div class="wcdm-coupon-applied-pills-container">
-						<?php foreach ( $applied as $coupon_code ) : ?>
-							<div class="wcdm-coupon-applied-pill" style="margin-bottom: 6px;">
-								<span class="wcdm-pill-check">&#10003;</span>
-								<span class="wcdm-pill-label">
-									<?php esc_html_e( 'Coupon', 'woo-coupon-display-manager' ); ?>
-									<strong><?php echo esc_html( strtoupper( $coupon_code ) ); ?></strong>
-									<?php esc_html_e( 'Applied!', 'woo-coupon-display-manager' ); ?>
-								</span>
-								<a href="#" class="wcdm-remove-coupon" data-coupon="<?php echo esc_attr( strtolower( $coupon_code ) ); ?>">
-									<?php esc_html_e( '(Remove)', 'woo-coupon-display-manager' ); ?>
-								</a>
+			<?php if ( $is_dropdown ) : ?>
+				<a href="#" class="wcdm-dropdown-toggle" style="<?php echo $has_coupon ? 'display: none;' : ''; ?>">
+					<?php echo esc_html( get_option( 'wcdm_dropdown_text', __( 'Have a coupon?', 'coupon-display-manager-for-woocommerce' ) ) ); ?>
+				</a>
+			<?php endif; ?>
+
+			<div class="wcdm-dropdown-content" style="<?php echo ( $is_dropdown && ! $has_coupon ) ? 'display: none;' : ''; ?>">
+				<?php
+				if ( $enable_list ) {
+					echo $this->render_available_coupons_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
+				?>
+				<div class="wcdm-coupon-interactive-area">
+					<?php if ( $has_coupon ) : ?>
+						<div class="wcdm-coupon-applied-pills-container">
+							<?php foreach ( $applied as $coupon_code ) : ?>
+								<div class="wcdm-coupon-applied-pill" style="margin-bottom: 6px;">
+									<span class="wcdm-pill-check">&#10003;</span>
+									<span class="wcdm-pill-label">
+										<?php esc_html_e( 'Coupon', 'coupon-display-manager-for-woocommerce' ); ?>
+										<strong><?php echo esc_html( strtoupper( $coupon_code ) ); ?></strong>
+										<?php esc_html_e( 'Applied!', 'coupon-display-manager-for-woocommerce' ); ?>
+									</span>
+									<a href="#" class="wcdm-remove-coupon" data-coupon="<?php echo esc_attr( strtolower( $coupon_code ) ); ?>">
+										<?php esc_html_e( '(Remove)', 'coupon-display-manager-for-woocommerce' ); ?>
+									</a>
+								</div>
+							<?php endforeach; ?>
+						</div>
+						<?php if ( $show_input && ! $single_coupon ) : ?>
+							<div class="wcdm-coupon-input-wrapper-spacer" style="margin-top: 12px;"></div>
+							<div class="wcdm-coupon-input-wrapper">
+								<input
+									type="text"
+									id="wcdm_coupon_code_mock"
+									class="input-text"
+									placeholder="<?php esc_attr_e( 'Coupon Code', 'coupon-display-manager-for-woocommerce' ); ?>"
+									value=""
+									autocomplete="off"
+								/>
+								<button type="button" id="wcdm_apply_coupon_mock" class="<?php echo esc_attr( $btn_class ); ?>">
+									<?php echo esc_html( $button_text ); ?>
+								</button>
 							</div>
-						<?php endforeach; ?>
-					</div>
-					<?php if ( $show_input && ! $single_coupon ) : ?>
-						<div class="wcdm-coupon-input-wrapper-spacer" style="margin-top: 12px;"></div>
+						<?php endif; ?>
+					<?php else : ?>
+						<?php if ( $show_input ) : ?>
 						<div class="wcdm-coupon-input-wrapper">
 							<input
 								type="text"
 								id="wcdm_coupon_code_mock"
 								class="input-text"
-								placeholder="<?php esc_attr_e( 'Coupon Code', 'woo-coupon-display-manager' ); ?>"
+								placeholder="<?php esc_attr_e( 'Coupon Code', 'coupon-display-manager-for-woocommerce' ); ?>"
 								value=""
 								autocomplete="off"
 							/>
@@ -150,15 +179,63 @@ class WCDM_Frontend {
 								<?php echo esc_html( $button_text ); ?>
 							</button>
 						</div>
+						<?php endif; ?>
+						<?php if ( $show_hint ) : ?>
+						<span class="wcdm-coupon-hint">
+							<?php esc_html_e( 'Optional — only if you have a coupon', 'coupon-display-manager-for-woocommerce' ); ?>
+						</span>
+						<?php endif; ?>
 					<?php endif; ?>
-				<?php else : ?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * The input + Apply button markup (used directly and as a hidden template clone).
+	 */
+	public function render_repositioned_coupon_html() {
+		$button_text = get_option( 'wcdm_button_text', __( 'Apply Coupon', 'coupon-display-manager-for-woocommerce' ) );
+		$show_hint   = 'yes' === get_option( 'wcdm_show_hint', 'yes' );
+		
+		$display_mode = get_option( 'wcdm_coupon_display_mode', 'input' );
+		$show_input   = ( 'input' === $display_mode || 'both' === $display_mode );
+		$enable_list  = ( 'list' === $display_mode || 'both' === $display_mode );
+
+		$button_style = get_option( 'wcdm_button_style', 'secondary' );
+
+		$btn_class = 'button wcdm-btn-' . esc_attr( $button_style );
+
+		$layout_position = get_option( 'wcdm_layout_position', 'above_payment' );
+		$is_dropdown     = 'yes' === get_option( 'wcdm_dropdown_hide', 'no' );
+
+		$wrapper_class = 'wcdm-checkout-coupon-repositioned';
+		if ( $is_dropdown ) {
+			$wrapper_class .= ' wcdm-layout-dropdown-hide';
+		}
+		?>
+		<div class="<?php echo esc_attr( $wrapper_class ); ?>">
+			<?php if ( $is_dropdown ) : ?>
+				<a href="#" class="wcdm-dropdown-toggle">
+					<?php echo esc_html( get_option( 'wcdm_dropdown_text', __( 'Have a coupon?', 'coupon-display-manager-for-woocommerce' ) ) ); ?>
+				</a>
+			<?php endif; ?>
+
+			<div class="wcdm-dropdown-content" style="<?php echo $is_dropdown ? 'display: none;' : ''; ?>">
+				<?php
+				if ( $enable_list ) {
+					echo $this->render_available_coupons_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				}
+				?>
+				<div class="wcdm-coupon-interactive-area">
 					<?php if ( $show_input ) : ?>
 					<div class="wcdm-coupon-input-wrapper">
 						<input
 							type="text"
 							id="wcdm_coupon_code_mock"
 							class="input-text"
-							placeholder="<?php esc_attr_e( 'Coupon Code', 'woo-coupon-display-manager' ); ?>"
+							placeholder="<?php esc_attr_e( 'Coupon Code', 'coupon-display-manager-for-woocommerce' ); ?>"
 							value=""
 							autocomplete="off"
 						/>
@@ -169,57 +246,10 @@ class WCDM_Frontend {
 					<?php endif; ?>
 					<?php if ( $show_hint ) : ?>
 					<span class="wcdm-coupon-hint">
-						<?php esc_html_e( 'Optional — only if you have a coupon', 'woo-coupon-display-manager' ); ?>
+						<?php esc_html_e( 'Optional — only if you have a coupon', 'coupon-display-manager-for-woocommerce' ); ?>
 					</span>
 					<?php endif; ?>
-				<?php endif; ?>
-			</div>
-		</div>
-		<?php
-	}
-
-	/**
-	 * The input + Apply button markup (used directly and as a hidden template clone).
-	 */
-	public function render_repositioned_coupon_html() {
-		$button_text = get_option( 'wcdm_button_text', __( 'Apply Coupon', 'woo-coupon-display-manager' ) );
-		$show_hint   = 'yes' === get_option( 'wcdm_show_hint', 'yes' );
-		
-		$display_mode = get_option( 'wcdm_coupon_display_mode', 'input' );
-		$show_input   = ( 'input' === $display_mode || 'both' === $display_mode );
-		$enable_list  = ( 'list' === $display_mode || 'both' === $display_mode );
-
-		$button_style = get_option( 'wcdm_button_style', 'secondary' );
-
-		$btn_class = 'button wcdm-btn-' . esc_attr( $button_style );
-		?>
-		<div class="wcdm-checkout-coupon-repositioned">
-			<?php
-			if ( $enable_list ) {
-				echo $this->render_available_coupons_markup(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-			}
-			?>
-			<div class="wcdm-coupon-interactive-area">
-				<?php if ( $show_input ) : ?>
-				<div class="wcdm-coupon-input-wrapper">
-					<input
-						type="text"
-						id="wcdm_coupon_code_mock"
-						class="input-text"
-						placeholder="<?php esc_attr_e( 'Coupon Code', 'woo-coupon-display-manager' ); ?>"
-						value=""
-						autocomplete="off"
-					/>
-					<button type="button" id="wcdm_apply_coupon_mock" class="<?php echo esc_attr( $btn_class ); ?>">
-						<?php echo esc_html( $button_text ); ?>
-					</button>
 				</div>
-				<?php endif; ?>
-				<?php if ( $show_hint ) : ?>
-				<span class="wcdm-coupon-hint">
-					<?php esc_html_e( 'Optional — only if you have a coupon', 'woo-coupon-display-manager' ); ?>
-				</span>
-				<?php endif; ?>
 			</div>
 		</div>
 		<?php
@@ -312,16 +342,20 @@ class WCDM_Frontend {
 			if ( empty( $desc ) ) {
 				switch ( $type ) {
 					case 'percent':
-						$desc = sprintf( __( 'Discount %s%%', 'woo-coupon-display-manager' ), $amount );
+						/* translators: %s: discount percentage */
+						$desc = sprintf( __( 'Discount %s%%', 'coupon-display-manager-for-woocommerce' ), $amount );
 						break;
 					case 'fixed_cart':
-						$desc = sprintf( __( '%s Off Total', 'woo-coupon-display-manager' ), wc_price( $amount ) );
+						/* translators: %s: formatted discount amount */
+						$desc = sprintf( __( '%s Off Total', 'coupon-display-manager-for-woocommerce' ), wc_price( $amount ) );
 						break;
 					case 'fixed_product':
-						$desc = sprintf( __( '%s Off per Product', 'woo-coupon-display-manager' ), wc_price( $amount ) );
+						/* translators: %s: formatted discount amount */
+						$desc = sprintf( __( '%s Off per Product', 'coupon-display-manager-for-woocommerce' ), wc_price( $amount ) );
 						break;
 					default:
-						$desc = sprintf( __( '%s Off', 'woo-coupon-display-manager' ), $amount );
+						/* translators: %s: discount amount */
+						$desc = sprintf( __( '%s Off', 'coupon-display-manager-for-woocommerce' ), $amount );
 						break;
 				}
 			}
@@ -349,7 +383,7 @@ class WCDM_Frontend {
 			return '';
 		}
 
-		$title     = get_option( 'wcdm_list_title', __( 'Available Coupons', 'woo-coupon-display-manager' ) );
+		$title     = get_option( 'wcdm_list_title', __( 'Available Coupons', 'coupon-display-manager-for-woocommerce' ) );
 		$show_desc = get_option( 'wcdm_list_show_desc', 'yes' );
 
 		ob_start();
@@ -414,16 +448,16 @@ class WCDM_Frontend {
 			'wcdm-frontend-js',
 			'wcdm_params',
 			array(
-				'button_text'   => get_option( 'wcdm_button_text', __( 'Apply Coupon', 'woo-coupon-display-manager' ) ),
+				'button_text'   => get_option( 'wcdm_button_text', __( 'Apply Coupon', 'coupon-display-manager-for-woocommerce' ) ),
 				'button_style'  => get_option( 'wcdm_button_style', 'secondary' ),
 				'show_hint'     => get_option( 'wcdm_show_hint', 'yes' ),
-				'hint_text'     => __( 'Optional — only if you have a coupon', 'woo-coupon-display-manager' ),
+				'hint_text'     => __( 'Optional — only if you have a coupon', 'coupon-display-manager-for-woocommerce' ),
 				'show_input'    => $show_input,
 				'enable_list'   => $enable_list,
 				'checkout_type' => WCDM_Compat::get_checkout_type(),
-				'remove_text'   => __( '(Remove)', 'woo-coupon-display-manager' ),
-				'applied_text'  => __( 'Applied!', 'woo-coupon-display-manager' ),
-				'removing_text' => __( 'Removing...', 'woo-coupon-display-manager' ),
+				'remove_text'   => __( '(Remove)', 'coupon-display-manager-for-woocommerce' ),
+				'applied_text'  => __( 'Applied!', 'coupon-display-manager-for-woocommerce' ),
+				'removing_text' => __( 'Removing...', 'coupon-display-manager-for-woocommerce' ),
 				'single_coupon' => get_option( 'wcdm_single_coupon', 'yes' ),
 				'layout_position' => get_option( 'wcdm_layout_position', 'above_payment' ),
 			)

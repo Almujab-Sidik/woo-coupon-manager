@@ -65,9 +65,9 @@ class WCDM_Blocks {
 			'wcdm_block_params',
 			array(
 				'button_style'  => get_option( 'wcdm_button_style', 'secondary' ),
-				'button_text'   => get_option( 'wcdm_button_text', __( 'Apply Coupon', 'woo-coupon-display-manager' ) ),
+				'button_text'   => get_option( 'wcdm_button_text', __( 'Apply Coupon', 'coupon-display-manager-for-woocommerce' ) ),
 				'show_hint'     => get_option( 'wcdm_show_hint', 'yes' ),
-				'hint_text'     => __( 'Optional — only if you have a coupon', 'woo-coupon-display-manager' ),
+				'hint_text'     => __( 'Optional — only if you have a coupon', 'coupon-display-manager-for-woocommerce' ),
 				'show_input'    => $show_input,
 				'enable_list'   => $enable_list,
 				'checkout_type' => WCDM_Compat::get_checkout_type(),

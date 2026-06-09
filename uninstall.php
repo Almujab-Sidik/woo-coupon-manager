@@ -11,7 +11,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-$options = array(
+$wcdm_options = array(
 	'wcdm_enabled',
 	'wcdm_activated',
 	'wcdm_mode',
@@ -27,6 +27,8 @@ $options = array(
 	'wcdm_enable_list',
 	'wcdm_coupon_display_mode',
 	'wcdm_layout_position',
+	'wcdm_dropdown_hide',
+	'wcdm_dropdown_text',
 	'wcdm_single_coupon',
 	'wcdm_list_selected_coupons',
 	'wcdm_list_title',
@@ -34,17 +36,17 @@ $options = array(
 	'wcdm_list_hide_private',
 );
 
-foreach ( $options as $option ) {
-	delete_option( $option );
+foreach ( $wcdm_options as $wcdm_option ) {
+	delete_option( $wcdm_option );
 }
 
 // Multisite cleanup.
 if ( is_multisite() ) {
-	$sites = get_sites( array( 'fields' => 'ids' ) );
-	foreach ( $sites as $site_id ) {
-		switch_to_blog( $site_id );
-		foreach ( $options as $option ) {
-			delete_option( $option );
+	$wcdm_sites = get_sites( array( 'fields' => 'ids' ) );
+	foreach ( $wcdm_sites as $wcdm_site_id ) {
+		switch_to_blog( $wcdm_site_id );
+		foreach ( $wcdm_options as $wcdm_option ) {
+			delete_option( $wcdm_option );
 		}
 		restore_current_blog();
 	}

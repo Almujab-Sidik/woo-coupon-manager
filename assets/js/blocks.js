@@ -173,6 +173,7 @@
 		var $badge    = $( SEL.couponBadge );
 		var $mockWrap = $( SEL.mockWrap );
 		var $interactive = $mockWrap.find( '.wcdm-coupon-interactive-area' );
+		var isDropdown = $mockWrap.hasClass( 'wcdm-layout-dropdown-hide' );
 		if ( ! $interactive.length ) {
 			$interactive = $mockWrap;
 		}
@@ -216,6 +217,10 @@
 
 		if ( appliedCodes.length > 0 ) {
 			$mockWrap.addClass( 'wcdm-coupon-applied-state wcdm-has-coupon' );
+			if ( isDropdown ) {
+				$mockWrap.find( '.wcdm-dropdown-toggle' ).hide();
+				$mockWrap.find( '.wcdm-dropdown-content' ).show();
+			}
 
 			var pillsHtml = '<div class="wcdm-coupon-applied-pills-container">';
 			$.each( appliedCodes, function ( index, code ) {
@@ -246,6 +251,11 @@
 			// Coupon removed — restore input.
 			$mockWrap.removeClass( 'wcdm-coupon-applied-state wcdm-has-coupon' );
 			$interactive.html( $tpl.find( '.wcdm-coupon-interactive-area' ).html() );
+			if ( isDropdown ) {
+				$mockWrap.removeClass( 'wcdm-dropdown-open' );
+				$mockWrap.find( '.wcdm-dropdown-toggle' ).show().removeClass( 'wcdm-dropdown-active' );
+				$mockWrap.find( '.wcdm-dropdown-content' ).hide();
+			}
 			$( SEL.mockBtn ).removeClass( 'button' ).addClass( getBtnClass() );
 			if ( p.button_text ) {
 				$( SEL.mockBtn ).text( p.button_text );
@@ -320,6 +330,16 @@
 		// WC Default (block or classic): attach all event handlers via delegation.
 		// Handlers are registered now; the widget will be injected later by the
 		// observer (React renders async — DOM may not exist at ready-time yet).
+
+		// Toggle dropdown content
+		$( document.body ).on( 'click', '.wcdm-dropdown-toggle', function ( e ) {
+			e.preventDefault();
+			var $wrap = $( this ).closest( '.wcdm-checkout-coupon-repositioned' );
+			var $content = $( this ).siblings( '.wcdm-dropdown-content' );
+			$content.slideToggle( 200 );
+			$( this ).toggleClass( 'wcdm-dropdown-active' );
+			$wrap.toggleClass( 'wcdm-dropdown-open' );
+		} );
 
 		// Mock Apply button click
 		$( document.body ).on( 'click', SEL.mockBtn, function ( e ) {

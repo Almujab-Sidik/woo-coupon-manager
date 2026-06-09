@@ -66,7 +66,7 @@ This plugin is designed to work seamlessly with:
 ## 🚀 Installation
 
 1. Clone or download this repository.
-2. Upload the `woo-coupon-display-manager` directory to your WordPress plugins directory (usually `/wp-content/plugins/`).
+2. Upload the `coupon-display-manager-for-woocommerce` directory to your WordPress plugins directory (usually `/wp-content/plugins/`).
 3. Activate the plugin through the **Plugins** menu in WordPress.
 4. Go to **WooCommerce** -> **Coupon Display** to configure your options.
 

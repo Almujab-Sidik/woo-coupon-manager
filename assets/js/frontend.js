@@ -83,6 +83,7 @@
 		var $real = $( SEL.removeLinks ).not( '.wcdm-remove-coupon' );
 		var $wrap = $( SEL.mockWrap );
 		var $interactive = $wrap.find( '.wcdm-coupon-interactive-area' );
+		var isDropdown = $wrap.hasClass( 'wcdm-layout-dropdown-hide' );
 
 		var appliedCodes = [];
 		$real.each( function () {
@@ -122,6 +123,11 @@
 				if ( $tpl.length && $interactive.length ) {
 					$wrap.removeClass( 'wcdm-coupon-applied-state wcdm-has-coupon' );
 					$interactive.html( $tpl.find( '.wcdm-coupon-interactive-area' ).html() );
+					if ( isDropdown ) {
+						$wrap.removeClass( 'wcdm-dropdown-open' );
+						$wrap.find( '.wcdm-dropdown-toggle' ).show().removeClass( 'wcdm-dropdown-active' );
+						$wrap.find( '.wcdm-dropdown-content' ).hide();
+					}
 					applyBtnStyle();
 				}
 			}
@@ -160,6 +166,10 @@
 		}
 
 		$interactive.html( pillsHtml );
+		if ( isDropdown ) {
+			$wrap.find( '.wcdm-dropdown-toggle' ).hide();
+			$wrap.find( '.wcdm-dropdown-content' ).show();
+		}
 		applyBtnStyle();
 	}
 
@@ -227,6 +237,16 @@
 
 		// Initialize layout and styles
 		init();
+
+		// Toggle dropdown content
+		$( document.body ).on( 'click', '.wcdm-dropdown-toggle', function ( e ) {
+			e.preventDefault();
+			var $wrap = $( this ).closest( '.wcdm-checkout-coupon-repositioned' );
+			var $content = $( this ).siblings( '.wcdm-dropdown-content' );
+			$content.slideToggle( 200 );
+			$( this ).toggleClass( 'wcdm-dropdown-active' );
+			$wrap.toggleClass( 'wcdm-dropdown-open' );
+		} );
 
 		// Mock Apply button click
 		$( document.body ).on( 'click', SEL.mockBtn, function ( e ) {
