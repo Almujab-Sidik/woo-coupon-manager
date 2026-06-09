@@ -1,6 +1,13 @@
 <?php
+// phpcs:ignoreFile
+
 
 namespace YahnisElsts\PluginUpdateChecker\v5p4;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory as MajorFactory;
 use YahnisElsts\PluginUpdateChecker\v5p4\PucFactory as MinorFactory;

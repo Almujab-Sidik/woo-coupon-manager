@@ -1,6 +1,13 @@
 <?php
+// phpcs:ignoreFile
+
 
 namespace YahnisElsts\PluginUpdateChecker\v5p4\Theme;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 use YahnisElsts\PluginUpdateChecker\v5p4\UpdateChecker as BaseUpdateChecker;
 use YahnisElsts\PluginUpdateChecker\v5p4\InstalledPackage;

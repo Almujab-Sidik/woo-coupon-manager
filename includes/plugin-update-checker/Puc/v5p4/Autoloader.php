@@ -1,6 +1,13 @@
 <?php
+// phpcs:ignoreFile
+
 
 namespace YahnisElsts\PluginUpdateChecker\v5p4;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 if ( !class_exists(Autoloader::class, false) ):
 

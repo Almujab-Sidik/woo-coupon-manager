@@ -1,4 +1,9 @@
 <?php
+// phpcs:ignoreFile
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 if ( !class_exists('PucReadmeParser', false) ):
 

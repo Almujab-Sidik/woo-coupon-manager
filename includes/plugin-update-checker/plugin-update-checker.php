@@ -1,4 +1,9 @@
 <?php
+// phpcs:ignoreFile
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Plugin Update Checker Library 5.4
  * http://w-shadow.com/

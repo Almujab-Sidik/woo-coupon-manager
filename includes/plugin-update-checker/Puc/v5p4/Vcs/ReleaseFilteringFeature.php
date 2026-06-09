@@ -1,6 +1,13 @@
 <?php
+// phpcs:ignoreFile
+
 
 namespace YahnisElsts\PluginUpdateChecker\v5p4\Vcs;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 if ( !trait_exists(ReleaseFilteringFeature::class, false) ) :
 

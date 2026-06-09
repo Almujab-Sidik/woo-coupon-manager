@@ -1,6 +1,13 @@
 <?php
+// phpcs:ignoreFile
+
 
 namespace YahnisElsts\PluginUpdateChecker\v5p4\Vcs;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 
 use YahnisElsts\PluginUpdateChecker\v5p4\OAuthSignature;
 use YahnisElsts\PluginUpdateChecker\v5p4\Utils;
