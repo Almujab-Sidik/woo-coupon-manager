@@ -47,9 +47,9 @@ add_action('before_woocommerce_init', function () {
 /**
  * Main Plugin Class — singleton bootstrap.
  */
-class Woo_Coupon_Display_Manager
+class WCDM_Coupon_Display_Manager
 {
-	/** @var Woo_Coupon_Display_Manager */
+	/** @var WCDM_Coupon_Display_Manager */
 	private static $instance = null;
 
 	public static function get_instance()
@@ -111,4 +111,4 @@ class Woo_Coupon_Display_Manager
 }
 
 // Boot.
-Woo_Coupon_Display_Manager::get_instance();
+WCDM_Coupon_Display_Manager::get_instance();
