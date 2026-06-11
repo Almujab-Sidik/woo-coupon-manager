@@ -70,6 +70,9 @@ class WCDM_Frontend {
 
 		// Hidden coupons list for JS injection.
 		add_action( 'wp_footer', array( $this, 'render_hidden_available_coupons' ) );
+
+		// Customize checkout texts.
+		add_filter( 'gettext', array( $this, 'customize_checkout_texts' ), 999, 3 );
 	}
 
 	// =========================================================================
@@ -414,6 +417,120 @@ class WCDM_Frontend {
 		</div>
 		<?php
 		return ob_get_clean();
+	}
+
+	/**
+	 * Dynamically swap specific checkout texts/headings using WooCommerce gettext hook.
+	 *
+	 * @param string $translated_text The translated text.
+	 * @param string $text            The original text being translated.
+	 * @param string $domain          The text domain.
+	 * @return string
+	 */
+	public function customize_checkout_texts( $translated_text, $text, $domain ) {
+		static $in_filter = false;
+		if ( $in_filter ) {
+			return $translated_text;
+		}
+
+		$target_texts = array(
+			// Customer Info mappings
+			'Customer information',
+			'Contact',
+
+			// Billing mappings
+			'Billing details',
+			'Billing',
+
+			// Payment mappings
+			'Payment',
+
+			// Order summary mappings
+			'Your order',
+
+			// Additional Information mappings
+			'Additional information',
+			'Additional Information',
+
+			// Agreement disclaimer
+			'By using this payment method, you agree that all submitted data for your order will be processed by payment processor.',
+		);
+
+		if ( ! in_array( $text, $target_texts, true ) ) {
+			return $translated_text;
+		}
+
+		$in_filter = true;
+
+		$should_translate = false;
+
+		// 1. If we are on the frontend checkout page (checked only after 'wp' hook is ready to prevent recursion)
+		if ( did_action( 'wp' ) && ! is_admin() && WCDM_Compat::is_checkout_page() ) {
+			$should_translate = true;
+		}
+		// 2. If it is a WooCommerce or CartFlows checkout AJAX request
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		elseif ( wp_doing_ajax() && isset( $_REQUEST['action'] ) ) {
+			// phpcs:ignore WordPress.Security.NonceVerification.Recommended, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$action = sanitize_text_field( wp_unslash( $_REQUEST['action'] ) );
+			if ( 0 === strpos( $action, 'woocommerce_' ) || 0 === strpos( $action, 'wcf_' ) ) {
+				$should_translate = true;
+			}
+		}
+
+		if ( $should_translate ) {
+			// Category 1: Customer Information
+			if ( in_array( $text, array( 'Customer information', 'Contact' ), true ) ) {
+				$custom = get_option( 'wcdm_text_customer_info' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+			// Category 2: Billing Details
+			elseif ( in_array( $text, array( 'Billing details', 'Billing' ), true ) ) {
+				$custom = get_option( 'wcdm_text_billing_details' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+			// Category 3: Payment
+			elseif ( $text === 'Payment' ) {
+				$custom = get_option( 'wcdm_text_payment' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+			// Category 4: Order Summary
+			elseif ( $text === 'Your order' ) {
+				$custom = get_option( 'wcdm_text_order_summary' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+			// Category 5: Additional Information
+			elseif ( in_array( $text, array( 'Additional information', 'Additional Information' ), true ) ) {
+				$custom = get_option( 'wcdm_text_additional_info' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+			// Category 6: Agreement Checkbox
+			elseif ( $text === 'By using this payment method, you agree that all submitted data for your order will be processed by payment processor.' ) {
+				$custom = get_option( 'wcdm_text_agreement' );
+				if ( ! empty( $custom ) ) {
+					$in_filter = false;
+					return $custom;
+				}
+			}
+		}
+
+		$in_filter = false;
+		return $translated_text;
 	}
 
 	// =========================================================================

@@ -339,6 +339,65 @@ class WCDM_Settings
 				'type' => 'sectionend',
 				'id' => 'wcdm_settings_sectionend',
 			),
+			// ---- Checkout Text Customization ----
+			array(
+				'title' => __('Checkout Text Customization', 'coupon-display-manager-for-woocommerce'),
+				'type' => 'title',
+				'desc' => __('Customize default WooCommerce checkout headings and messages.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_checkout_texts_title',
+			),
+			array(
+				'title' => __('Customer Information Heading', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default "Customer information" heading.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_customer_info',
+				'default' => '',
+				'type' => 'text',
+				'desc_tip' => true,
+			),
+			array(
+				'title' => __('Billing Details Heading', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default "Billing details" heading.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_billing_details',
+				'default' => '',
+				'type' => 'text',
+				'desc_tip' => true,
+			),
+			array(
+				'title' => __('Payment Heading', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default "Payment" heading.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_payment',
+				'default' => '',
+				'type' => 'text',
+				'desc_tip' => true,
+			),
+			array(
+				'title' => __('Order Summary Heading', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default "Your order" or "Order summary" heading.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_order_summary',
+				'default' => '',
+				'type' => 'text',
+				'desc_tip' => true,
+			),
+			array(
+				'title' => __('Additional Information Heading', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default "Additional information" heading.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_additional_info',
+				'default' => '',
+				'type' => 'text',
+				'desc_tip' => true,
+			),
+			array(
+				'title' => __('Payment Agreement Text', 'coupon-display-manager-for-woocommerce'),
+				'desc' => __('Change the default WooCommerce payment agreement checkbox note.', 'coupon-display-manager-for-woocommerce'),
+				'id' => 'wcdm_text_agreement',
+				'default' => '',
+				'type' => 'textarea',
+				'desc_tip' => true,
+			),
+			array(
+				'type' => 'sectionend',
+				'id' => 'wcdm_checkout_texts_sectionend',
+			),
 		);
 
 		return apply_filters('wcdm_coupon_display_manager_settings', $settings);
