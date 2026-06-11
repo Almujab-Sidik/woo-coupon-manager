@@ -4,7 +4,7 @@
  * Plugin Name:       Coupon Display Manager for WooCommerce
  * Plugin URI:        https://eraai.id
  * Description:       Control the position, style, and behavior of the WooCommerce coupon field on any checkout page — including CartFlows, FunnelKit, Block Checkout, and the WooCommerce default.
- * Version:           1.1.0
+ * Version:           1.1.1
  * Author:            ERA AI
  * Author URI:        https://eraai.id
  * Text Domain:       coupon-display-manager-for-woocommerce
@@ -23,7 +23,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Plugin constants.
-define('WCDM_VERSION', '1.1.0');
+define('WCDM_VERSION', '1.1.1');
 define('WCDM_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('WCDM_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('WCDM_PLUGIN_BASENAME', plugin_basename(__FILE__));
